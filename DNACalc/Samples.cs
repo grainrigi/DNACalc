@@ -41,7 +41,7 @@ namespace DNACalc {
 
                 // キャッシュを参照
                 int searchLen = tree.Search(c.combination);
-                if (searchLen < pick) {
+                if (searchLen > 0) {
                     result += c.SkipThis(c.combination, searchLen);
                     continue;
                 }
@@ -50,9 +50,10 @@ namespace DNACalc {
                 foreach(var index in c.combination) {
                     acc |= data[index];
                 }
-                if(acc == accFull) result++;
-                // 補完しなかった場合はメモしておく
-                else tree.AddCombination(c.combination);
+                if(acc == accFull) {
+                    result++;
+                    if (pick < 6) tree.AddCombination(c.combination);
+                }
             } while(c.Next());
 
             return result;
