@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNACalc", "DNACalc\DNACalc.csproj", "{4C2318E9-6A99-467F-A39F-92F2049E3EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNACalcTests", "DNACalcTests\DNACalcTests.csproj", "{B69A78FF-D9F5-4BC5-85BB-60B06AE5114B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C2318E9-6A99-467F-A39F-92F2049E3EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2318E9-6A99-467F-A39F-92F2049E3EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2318E9-6A99-467F-A39F-92F2049E3EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2318E9-6A99-467F-A39F-92F2049E3EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B69A78FF-D9F5-4BC5-85BB-60B06AE5114B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69A78FF-D9F5-4BC5-85BB-60B06AE5114B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69A78FF-D9F5-4BC5-85BB-60B06AE5114B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69A78FF-D9F5-4BC5-85BB-60B06AE5114B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8D007B3-AAA1-4722-855C-F320996CFD0F}
+	EndGlobalSection
+EndGlobal
