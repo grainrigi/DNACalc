@@ -12,6 +12,9 @@ namespace DNACalc {
         private ulong accFull;
         private CombTree tree = new CombTree();
 
+        public BigInteger pubResult;
+        public bool cancel = false;
+
         public int Width { get => length; }
         public int Height { get => data.Length; }
 
@@ -35,28 +38,72 @@ namespace DNACalc {
         public BigInteger Calc(int pick) {
             Combinator c = new Combinator(data.Length, pick);
             BigInteger result = 0;
+            ushort ctr = 0;
 
             do {
                 ulong acc = 0;
 
-                // キャッシュを参照
-                int searchLen = tree.Search(c.combination);
-                if (searchLen > 0) {
-                    result += c.SkipThis(c.combination, searchLen);
-                    continue;
-                }
-
                 // 補完するか計算
-                foreach(var index in c.combination) {
-                    acc |= data[index];
+                for (int i = 0; i < pick; i++) {
+                    acc |= data[c.combination[i]];
+                    if(acc == accFull) {
+                        if(i == pick - 1) {
+                            result++;
+                        } else {
+                            var skip = c.SkipThis(i + 1);
+                            result += skip;
+                        }
+                        break;
+                    }
                 }
-                if(acc == accFull) {
-                    result++;
-                    if (pick < 6) tree.AddCombination(c.combination);
+                if(++ctr == 0) {
+                    lock(this) {
+                        pubResult = result;
+                        if(cancel) return 0;
+                    }
                 }
             } while(c.Next());
 
             return result;
+        }
+
+        public void OptimzeOrder() {
+            int[] scores = new int[Height];
+            Combinator c = new Combinator(Height, 3);
+
+            do {
+                ulong acc = 0;
+
+                // 補完するか計算
+                for (int i = 0; i < 3; i++) {
+                    acc |= data[c.combination[i]];
+                    if(acc == accFull) {
+                        break;
+                    }
+                }
+
+                int score = 0;
+                for (int b = 0; b < Width; b++) {
+                    if((acc & ((ulong)1 << b)) != 0) score++;
+                }
+                for (int i = 0; i < 3; i++) {
+                    scores[c.combination[i]] += score;
+                }
+            } while(c.Next());
+
+            var sorter = new int[Height][];
+            for (int i = 0; i < Height; i++) {
+                sorter[i] = new int[2] { i, scores[i] };
+            }
+
+            int idx = 0;
+            ulong[] ndata = new ulong[Height];
+            foreach(var s in sorter.OrderByDescending(v => v[1])) {
+                ndata[idx] = data[s[0]];
+                idx++;
+            }
+
+            data = ndata;
         }
     }
 }

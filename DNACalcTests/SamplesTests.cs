@@ -11,6 +11,7 @@ namespace DNACalc.Tests {
     public class SamplesTests {
         [TestMethod()]
         public void SamplesTest() {
+            Util.CacheCombinations(4);
             Samples s = new Samples(new bool[][] {
                 new bool[] { true, false, true, true },
                 new bool[] { true, false, true, false },

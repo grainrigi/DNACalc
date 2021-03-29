@@ -7,35 +7,49 @@ using System.Numerics;
 
 namespace DNACalc {
     public class Combinator {
-        public byte[] combination;
+        public int[] combination;
+        private int pick;
         private int elements;
 
         public Combinator(int elements, int pick) {
-            combination = new byte[pick];
+            combination = new int[pick];
+            this.pick = pick;
             this.elements = elements;
 
             for (int i = 0; i < pick; i++) {
-                combination[i] = (byte)i;
+                combination[i] = i;
             }
         }
 
         public bool Next() {
-            return Incr(combination.Length - 1, elements - 1);
+            int i = 1;
+            // 後退
+            while (combination[pick - i] >= elements - i) {
+                if(++i > pick) return false;
+            }
+            // 更新
+            combination[pick - i]++;
+            // 前進
+            i = pick - i;
+            while (++i < pick) {
+                combination[i] = combination[i - 1] + 1;
+            }
+
+            return true;
         }
 
-        public BigInteger SkipThis(byte[] comb, int len) {
+        public BigInteger SkipThis(int len) {
             // スキップカウントを計算
-            BigInteger skipCount = Util.nCr(elements - combination[len - 1] - 1, combination.Length - len) - CalcPos(comb, len);
+            BigInteger skipCount = Util.nCr(elements - combination[len - 1] - 1, combination.Length - len) - CalcPos(combination, len);
 
-            for (int i = 0; i < combination.Length; i++) {
-                if(i < len) combination[i] = comb[i];
-                else combination[i] = (byte)(elements - (combination.Length - i));
+            for (int i = len; i < combination.Length; i++) {
+                combination[i] = elements - (combination.Length - i);
             }
 
             return skipCount;
         }
 
-        private BigInteger CalcPos(byte[] comb, int start) {
+        private BigInteger CalcPos(int[] comb, int start) {
             if (start == comb.Length - 1) {
                 return comb[start] - comb[start - 1] - 1;
             }
@@ -46,17 +60,6 @@ namespace DNACalc {
             }
 
             return result;
-        }
-
-        private bool Incr(int pos, int max) {
-            if (combination[pos] < max) {
-                combination[pos]++;
-            } else {
-                if(pos == 0) return false;
-                if(!Incr(pos - 1, max - 1)) return false;
-                combination[pos] = (byte)(combination[pos - 1] + 1);
-            }
-            return true;
         }
     }
 }

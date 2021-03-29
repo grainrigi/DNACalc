@@ -21,7 +21,12 @@ namespace DNACalc {
             var ls = System.Text.RegularExpressions.Regex.Split(csv, "\r\n|\r|\n").Where(v => v.Length > 0);
             return ls.Select(l => l.Split(',').Select(v => v.Length > 0).ToArray()).ToArray();
         }
+
         public static BigInteger nCr(int n, int r) {
+            return combinations[n, r];
+        }
+
+        public static BigInteger nCrRaw(int n, int r) {
             BigInteger result = 1;
             if(r > (n - r)) r = n - r;
             for (int i = 0; i < r; i++) {
@@ -33,5 +38,18 @@ namespace DNACalc {
             return result;
         }
 
+        public static void CacheCombinations(int _maxN) {
+            maxN = _maxN;
+            int maxR = maxN;
+            combinations = new BigInteger[maxN + 1, maxR + 1];
+            for (int n = 1; n <= maxN; n++) {
+                for (int r = 0; r <= maxR && r <= n; r++) {
+                    combinations[n, r] = nCrRaw(n, r);
+                }
+            }
+        }
+
+        private static BigInteger[,] combinations;
+        private static int maxN;
     }
 }
