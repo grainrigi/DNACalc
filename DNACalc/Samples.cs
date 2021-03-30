@@ -7,10 +7,10 @@ using System.Numerics;
 
 namespace DNACalc {
     public class Samples {
-        private ulong[] data;
-        private int length;
-        private ulong accFull;
-        private CombTree tree = new CombTree();
+        protected ulong[] data;
+        protected int length;
+        protected ulong accFull;
+        protected CombTree tree = new CombTree();
 
         public BigInteger pubResult;
         public bool cancel = false;
@@ -35,7 +35,7 @@ namespace DNACalc {
             }
         }
 
-        public BigInteger Calc(int pick) {
+        public virtual BigInteger Calc(int pick) {
             Combinator c = new Combinator(data.Length, pick);
             BigInteger result = 0;
             ushort ctr = 0;

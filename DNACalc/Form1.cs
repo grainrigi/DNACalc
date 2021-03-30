@@ -50,7 +50,8 @@ namespace DNACalc {
 
         private async void button1_Click(object sender, EventArgs e) {
             using(Timer t = new Timer()) {
-                Samples s = new Samples(Util.csv2bs(textBox1.Text));
+                var bs = Util.csv2bs(textBox1.Text);
+                Samples s = checkBox1.Checked ? new Samples(bs) : new NoDupSamples(bs);
                 current = s;
                 s.OptimzeOrder();
                 int h = s.Height;

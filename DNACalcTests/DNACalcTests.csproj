@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="CombinatorTests.cs" />
     <Compile Include="CombTreeTests.cs" />
+    <Compile Include="NoDupSamplesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SamplesTests.cs" />
     <Compile Include="UtilTests.cs" />
